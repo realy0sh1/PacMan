@@ -1,0 +1,551 @@
+#pacman
+var field = [];
+var dots = [];
+var gameField = [
+				 06,03,03,03,03,03,03,03,03,03,03,03,03,05,06,03,03,03,03,03,03,03,03,03,03,03,03,05,
+				 02,00,00,00,00,00,00,00,00,00,00,00,00,01,02,00,00,00,00,00,00,00,00,00,00,00,00,01,
+				 02,00,11,04,04,10,00,11,04,04,04,10,00,01,02,00,11,04,04,04,10,00,11,04,04,10,00,01,
+				 02,00,01,00,00,02,00,01,00,00,00,02,00,01,02,00,01,00,00,00,02,00,01,00,00,02,00,01,
+				 02,00,12,03,03,09,00,12,03,03,03,09,00,12,09,00,12,03,03,03,09,00,12,03,03,09,00,01,
+				 02,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,01,
+				 02,00,11,04,04,10,00,11,10,00,11,04,04,04,04,04,04,10,00,11,10,00,11,04,04,10,00,01,
+				 02,00,12,03,03,09,00,01,02,00,12,03,03,05,06,03,03,09,00,01,02,00,12,03,03,09,00,01,
+				 02,00,00,00,00,00,00,01,02,00,00,00,00,01,02,00,00,00,00,01,02,00,00,00,00,00,00,01,
+				 07,04,04,04,04,10,00,01,07,04,04,10,00,01,02,00,11,04,04,08,02,00,11,04,04,04,04,08,
+				 00,00,00,00,00,02,00,01,06,03,03,09,00,12,09,00,12,03,03,05,02,00,01,00,00,00,00,00,
+				 00,00,00,00,00,02,00,01,02,00,00,00,00,00,00,00,00,00,00,01,02,00,01,00,00,00,00,00,
+				 00,00,00,00,00,02,00,01,02,00,11,04,04,00,00,04,04,10,00,01,02,00,01,00,00,00,00,00,
+				 03,03,03,03,03,09,00,12,09,00,01,00,00,00,00,00,00,02,00,12,09,00,12,03,03,03,03,03,
+				 00,00,00,00,00,00,00,00,00,00,01,00,00,00,00,00,00,02,00,00,00,00,00,00,00,00,00,00,
+				 04,04,04,04,04,10,00,11,10,00,01,00,00,00,00,00,00,02,00,11,10,00,11,04,04,04,04,04,
+				 00,00,00,00,00,02,00,01,02,00,12,03,03,03,03,03,03,09,00,01,02,00,01,00,00,00,00,00,
+				 00,00,00,00,00,02,00,01,02,00,00,00,00,00,00,00,00,00,00,01,02,00,01,00,00,00,00,00,
+				 00,00,00,00,00,02,00,01,02,00,11,04,04,04,04,04,04,10,00,01,02,00,01,00,00,00,00,00,
+				 06,03,03,03,03,09,00,12,09,00,12,03,03,05,06,03,03,09,00,12,09,00,12,03,03,03,03,05,
+				 02,00,00,00,00,00,00,00,00,00,00,00,00,01,02,00,00,00,00,00,00,00,00,00,00,00,00,01,
+				 02,00,11,04,04,10,00,11,04,04,04,10,00,01,02,00,11,04,04,04,10,00,11,04,04,10,00,01,
+				 02,00,12,03,05,02,00,12,03,03,03,09,00,12,09,00,12,03,03,03,09,00,01,06,03,09,00,01,
+				 02,00,00,00,01,02,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,01,02,00,00,00,01,
+				 07,04,10,00,01,02,00,11,10,00,11,04,04,04,04,04,04,10,00,11,10,00,01,02,00,11,04,08,
+				 06,03,09,00,12,09,00,01,02,00,12,03,03,05,06,03,03,09,00,01,02,00,12,09,00,12,03,05,
+				 02,00,00,00,00,00,00,01,02,00,00,00,00,01,02,00,00,00,00,01,02,00,00,00,00,00,00,01,
+				 02,00,11,04,04,04,04,08,07,04,04,10,00,01,02,00,11,04,04,08,07,04,04,04,04,10,00,01,
+				 02,00,12,03,03,03,03,03,03,03,03,09,00,12,09,00,12,03,03,03,03,03,03,03,03,09,00,01,
+				 02,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,01,
+				 07,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,04,08,
+				];
+var gameDots = 	[
+				 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,
+				 00,01,01,01,01,01,01,01,01,01,01,01,01,00,00,01,01,01,01,01,01,01,01,01,01,01,01,00,
+				 00,01,00,00,00,00,01,00,00,00,00,00,01,00,00,01,00,00,00,00,00,01,00,00,00,00,01,00,
+				 00,01,00,00,00,00,01,00,00,00,00,00,01,00,00,01,00,00,00,00,00,01,00,00,00,00,01,00,
+				 00,01,00,00,00,00,01,00,00,00,00,00,01,00,00,01,00,00,00,00,00,01,00,00,00,00,01,00,
+				 00,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,00,
+				 00,01,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,01,00,
+				 00,01,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,01,00,
+				 00,01,01,01,01,01,01,00,00,01,01,01,01,00,00,01,01,01,01,00,00,01,01,01,01,01,01,00,
+				 00,00,00,00,00,00,01,00,00,00,00,00,01,00,00,01,00,00,00,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,00,00,00,01,00,00,01,00,00,00,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,01,01,01,01,01,01,01,01,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,01,01,01,00,00,00,00,00,00,00,00,01,01,01,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,01,01,01,01,01,01,01,01,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,
+				 00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,
+				 00,01,01,01,01,01,01,01,01,01,01,01,01,00,00,01,01,01,01,01,01,01,01,01,01,01,01,00,
+				 00,01,00,00,00,00,01,00,00,00,00,00,01,00,00,01,00,00,00,00,00,01,00,00,00,00,01,00,
+				 00,01,00,00,00,00,01,00,00,00,00,00,00,00,00,00,00,00,00,00,00,01,00,00,00,00,01,00,
+				 00,01,01,01,00,00,01,01,01,01,01,01,00,00,00,00,01,01,01,01,01,01,00,00,01,01,01,00,
+				 00,00,00,01,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,01,00,00,00,
+				 00,00,00,01,00,00,01,00,00,01,00,00,00,00,00,00,00,00,01,00,00,01,00,00,01,00,00,00,
+				 00,01,01,01,01,01,01,00,00,01,01,01,01,00,00,01,01,01,01,00,00,01,01,01,01,01,01,00,
+				 00,01,00,00,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,00,00,01,00,
+				 00,01,00,00,00,00,00,00,00,00,00,00,01,00,00,01,00,00,00,00,00,00,00,00,00,00,01,00,
+				 00,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,01,00,
+				 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,
+				];
+var length = math.min(canvas.width()/28.0, canvas.height()/35.0);
+#------------------------------------------------------
+function drawField(p_area = [-1,-1])
+{
+	if p_area == [-1,-1]then
+	{
+		for var i in field do
+		{
+			i.draw();
+		}
+	}
+	else
+	{
+		#center
+		field[Integer((p_area[0]-0) + 28*(p_area[1]-0))].draw();
+		#row above
+		field[Integer((p_area[0]-1) + 28*(p_area[1]-1))].draw();
+		field[Integer((p_area[0]-0) + 28*(p_area[1]-1))].draw();
+		field[Integer((p_area[0]+1) + 28*(p_area[1]-1))].draw();
+		#center row
+		field[Integer((p_area[0]-1) + 28*(p_area[1]-0))].draw();
+		field[Integer((p_area[0]+1) + 28*(p_area[1]-0))].draw();
+		#row below
+		field[Integer((p_area[0]-1) + 28*(p_area[1]+1))].draw();
+		field[Integer((p_area[0]-0) + 28*(p_area[1]+1))].draw();
+		field[Integer((p_area[0]+1) + 28*(p_area[1]+1))].draw();
+	}
+}
+function drawDots(p_area = [-1,-1])
+{
+	if p_area == [-1,-1]then
+	{
+		for var i in dots do
+		{
+			i.draw();
+		}
+	}
+	else
+	{
+		#center
+		dots[Integer((p_area[0]-0) + 28*(p_area[1]-0))].draw();
+		#row above
+		dots[Integer((p_area[0]-1) + 28*(p_area[1]-1))].draw();
+		dots[Integer((p_area[0]-0) + 28*(p_area[1]-1))].draw();
+		dots[Integer((p_area[0]+1) + 28*(p_area[1]-1))].draw();
+		#center row
+		dots[Integer((p_area[0]-1) + 28*(p_area[1]-0))].draw();
+		dots[Integer((p_area[0]+1) + 28*(p_area[1]-0))].draw();
+		#row below
+		dots[Integer((p_area[0]-1) + 28*(p_area[1]+1))].draw();
+		dots[Integer((p_area[0]-0) + 28*(p_area[1]+1))].draw();
+		dots[Integer((p_area[0]+1) + 28*(p_area[1]+1))].draw();
+	}
+}
+#------------------------------------------------------
+class Cube
+{
+public:
+	var x;
+	var y;
+	var type;
+
+	constructor(p_x, p_y , p_type)
+	{
+		x = p_x;
+		y = p_y;
+		type = p_type;
+	}
+	function draw()
+	{
+		#-----------------------------------
+		if type == 0 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+		}
+		if type == 1 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length+0.5*length, (this.y*length)+(2*length), 0.5*length, length);
+		}
+		if type == 2 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), 0.5*length, length);
+		}
+		if type == 3 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, 0.5*length);
+		}
+		if type == 4 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2.5*length), length, 0.5*length);
+		}
+		#-----------------------------------
+		if type == 5 then
+		{
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2.5*length), 0.5*length, 0.5*length);
+		}
+		if type == 6 then
+		{
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length+0.5*length, (this.y*length)+(2.5*length), 0.5*length, 0.5*length);
+		}
+		if type == 7 then
+		{
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length+0.5*length, (this.y*length)+(2*length), 0.5*length, 0.5*length);
+		}
+		if type == 8 then
+		{
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), 0.5*length, 0.5*length);
+		}
+		#-----------------------------------
+		if type == 9 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), 0.5*length, 0.5*length);
+		}
+		if type == 10 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length, (this.y*length)+(2.5*length), 0.5*length, 0.5*length);
+		}
+		if type == 11 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length+0.5*length, (this.y*length)+(2.5*length), 0.5*length, 0.5*length);
+		}
+		if type == 12 then
+		{
+			canvas.setFillColor(0,0,0);
+			canvas.fillRect(this.x*length, (this.y*length)+(2*length), length, length);
+			canvas.setFillColor(0,0,0.9);
+			canvas.fillRect(this.x*length+0.5*length, (this.y*length)+(2*length), 0.5*length, 0.5*length);
+		}
+	}
+}
+
+class Pac
+{
+public:
+	var x;
+	var y;
+	var orientation;
+	var next_orientation;
+	constructor(p_x, p_y, p_orientation = "down")
+	{
+		x = p_x;
+		y = p_y;
+		orientation = p_orientation;
+		next_orientation = p_orientation;
+	}
+	#p_degree int between 0 and 7
+	function draw(p_degree)
+	{
+		var degree;
+		if p_degree == 0 then
+		{
+			degree = 0;
+		}
+		if p_degree == 1 then
+		{
+			degree = 22.5;
+		}
+		if p_degree == 2 then
+		{
+			degree = 45;
+		}
+		if p_degree == 3 then
+		{
+			degree = 67.5;
+		}
+		if p_degree == 4 then
+		{
+			degree = 90;
+		}
+		if p_degree == 5 then
+		{
+			degree = 67.5;
+		}
+		if p_degree == 6 then
+		{
+			degree = 45;
+		}
+		if p_degree == 7 then
+		{
+			degree = 22.5;
+		}
+
+		canvas.setFillColor(1,1,0);
+		canvas.fillCircle(x*length+length*0.5,y*length+length*0.5+2*length, 0.8*length);
+		canvas.setFillColor(0,0,0);
+		if orientation == "left" then
+		{
+			canvas.fillArea([
+							[x*length+length*0.5,y*length+length*0.5+2*length],
+							[x*length+length*0.5-length, (y*length+length*0.5+2*length)+((0.9*length)*math.tan(((degree/2)*2*math.pi())/360))],
+							[x*length+length*0.5-length, (y*length+length*0.5+2*length)-((0.9*length)*math.tan(((degree/2)*2*math.pi())/360))]
+						]);
+		}
+		else if orientation == "right" then
+		{
+			canvas.fillArea([
+							[x*length+length*0.5,y*length+length*0.5+2*length],
+							[x*length+length*0.5+length, (y*length+length*0.5+2*length)+((0.9*length)*math.tan(((degree/2)*2*math.pi())/360))],
+							[x*length+length*0.5+length, (y*length+length*0.5+2*length)-((0.9*length)*math.tan(((degree/2)*2*math.pi())/360))]
+						]);
+		}
+		else if orientation == "up" then
+		{
+			canvas.fillArea([
+							[x*length+length*0.5,y*length+length*0.5+2*length],
+							[(x*length+length*0.5)+((0.9*length)*math.tan(((degree/2)*2*math.pi())/360)), (y*length+length*0.5-length+2*length)],
+							[(x*length+length*0.5)-((0.9*length)*math.tan(((degree/2)*2*math.pi())/360)), (y*length+length*0.5-length+2*length)]
+						]);
+		}
+		else if orientation == "down" then
+		{
+			canvas.fillArea([
+							[x*length+length*0.5,y*length+length*0.5+2*length],
+							[(x*length+length*0.5)+((0.9*length)*math.tan(((degree/2)*2*math.pi())/360)), (y*length+length*0.5+length+2*length)],
+							[(x*length+length*0.5)-((0.9*length)*math.tan(((degree/2)*2*math.pi())/360)), (y*length+length*0.5+length+2*length)]
+						]);
+		}
+	}
+	function move(p_direction)
+	{
+		if p_direction == "left" then
+		{
+			for var i in 0:8 do
+			{
+				this.orientation = "left";
+				this.x -=0.125;
+				drawField([math.round(this.x), math.round(this.y)]);
+				this.draw(i);
+
+				wait(100/8);
+			}
+			drawDots([this.x+1, this.y]);
+		}
+		if p_direction == "right" then
+		{
+			for var i in 0:8 do
+			{
+				this.orientation = "right";
+				this.x +=0.125;
+				drawField([math.round(this.x), math.round(this.y)]);
+				this.draw(i);
+				wait(100/8);
+
+			}
+			drawDots([this.x-1, this.y]);
+		}
+		if p_direction == "up" then
+		{
+			for var i in 0:8 do
+			{
+				this.orientation = "up";
+				this.y -=0.125;
+				drawField([math.round(this.x), math.round(this.y)]);
+				this.draw(i);
+				wait(100/8);
+
+			}
+			drawDots([this.x, this.y+1]);
+		}
+		if p_direction == "down" then
+		{
+			for var i in 0:8 do
+			{
+				this.orientation = "down";
+				this.y +=0.125;
+				drawField([math.round(this.x), math.round(this.y)]);
+				this.draw(i);
+				wait(100/8);
+
+			}
+			drawDots([this.x, this.y-1]);
+		}
+		if p_direction == "stand" then
+		{
+			for var i in 0:8 do
+			{
+				drawField([math.round(this.x), math.round(this.y)]);
+				this.draw(i);
+				wait(100/8);
+			}
+		}
+		quitEventMode();
+	}
+	function moveIfPossible()
+	{
+		if this.x <= 0 and this.y == 14 then
+		{
+			drawField([this.x, this.y]);
+			this.x = 27;
+		}
+		else if this.x >= 27 and this.y == 14 then
+		{
+			drawField([this.x, this.y]);
+			drawField([this.x+1, this.y]);
+			this.x = 0;
+		}
+
+		if this.checkForNoCollision(this.next_orientation) then
+		{
+			this.orientation = this.next_orientation;
+			this.move(this.orientation);
+		}
+		else if this.checkForNoCollision(this.orientation) then
+		{
+			this.move(this.orientation);
+		}
+		else
+		{
+			move("stand");
+		}
+	}
+	function checkForNoCollision(p_orientation)
+	{
+		if p_orientation == "left" then
+		{
+			if field[28*Integer(this.y) + Integer(this.x) - 1].type == 0 then return true;
+		}
+		else if p_orientation == "right" then
+		{
+			if field[28*Integer(this.y) + Integer(this.x) + 1].type == 0 then return true;
+		}
+		else if p_orientation == "up" then
+		{
+			if field[28*Integer(this.y) + Integer(this.x) - 28].type == 0 then return true;
+		}
+		else if p_orientation == "down" then
+		{
+			if field[28*Integer(this.y) + Integer(this.x) + 28].type == 0 then return true;
+		}
+		return false;
+	}
+}
+
+class Dots
+{
+	public:
+		var m_x;
+		var m_y;
+		var m_type;
+		constructor(p_x, p_y, p_type)
+		{
+			m_x = p_x*length;
+			m_y = p_y*length;
+			m_type = p_type;
+		}
+		function draw()
+		{
+			if m_type == 01 then
+			{
+				canvas.setFillColor(1,0.87,0);
+				canvas.fillRect(m_x + (length*3)/8, m_y + (length*3)/8 + 2*length, length/4, length/4);
+			}
+		}
+
+
+
+
+
+
+}
+#-------------------------------------------------
+var pacman = Pac(14,23, "down");
+#-------------------------------------------------
+function generateField()
+{
+	var z = 0;
+	for var y in 0:31 do
+	{
+		for var x in 0:28 do
+		{
+
+			field.push(Cube(x,y,gameField[z]));
+			z += 1 ;
+		}
+	}
+}
+function generateDots()
+{
+	var z = 0;
+	for var y in 0:31 do
+	{
+		for var x in 0:28 do
+		{
+
+			dots.push(Dots(x,y,gameDots[z]));
+			z += 1 ;
+		}
+	}
+}
+
+function playerInteraction(event)
+{
+	if event.key == "w" then
+	{
+		pacman.next_orientation = "up";
+	}
+	else if event.key == "s" then
+	{
+		pacman.next_orientation = "down";
+	}
+	else if event.key == "a" then
+	{
+		pacman.next_orientation = "left";
+	}
+	else if event.key == "d" then
+	{
+		pacman.next_orientation = "right";
+	}
+}
+function onTime(event)
+{
+	pacman.moveIfPossible();
+}
+#-------------------------------------------------
+canvas.setFillColor(0,0,0);
+canvas.clear();
+
+generateField();
+generateDots();
+
+drawField();
+drawDots();
+
+setEventHandler("canvas.keydown", playerInteraction);
+setEventHandler("timer", onTime);
+
+pacman.draw(0);
+var notFinished = true;
+while(notFinished) do
+{
+	enterEventMode();
+	dots[28*Integer(pacman.y) + Integer(pacman.x)].m_type = 00;
+
+	for var i in dots do
+	{
+		if i.m_type == 01 then
+		{
+			notFinished = true;
+			break;
+		}
+		else if i.m_type == 00 then
+		{
+			notFinished = false;
+		}
+	}
+
+}
+alert("You won");
